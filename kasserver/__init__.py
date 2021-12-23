@@ -103,6 +103,37 @@ class KasServer:
         split_dns = fqdn.rstrip(".").rsplit(".", 2)
         return "".join(split_dns[:-2]), ".".join(split_dns[-2:]) + "."
 
+
+    def get_email_records(self, login):
+        """Get list of Email records."""
+        
+        res = self._request("get_mailaccounts", {"mail_login": login})
+
+        # Put the Email records into a list of dicts
+        items = res[1]["value"]["item"][2]["value"]["_value_1"]
+        result = []
+        for item in items:
+            result.append(
+                {i["key"]: i["value"] for i in item["item"]}
+            )
+        return result
+
+
+    def add_email_record(self, mail_name, mail_password):
+        """Add an Email record."""
+        
+        parts = mail_name.split("@")
+
+        res = self._request("add_mailaccount", {
+            "mail_password": mail_password,
+            "local_part": parts[0],
+            "domain_part": parts[1],
+        })
+
+        # Return the login:
+        login = res[1]["value"]["item"][2]["value"]["value"]
+        return login
+
     def get_dns_records(self, fqdn):
         """Get list of DNS records."""
         _, zone_name = self._split_fqdn(fqdn)
