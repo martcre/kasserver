@@ -25,3 +25,6 @@ venv/
 *.bin
 .letsencrypt/
 tests_integration/
+
+# IDE
+.vscode/

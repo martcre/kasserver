@@ -106,8 +106,10 @@ class KasServer:
 
     def get_email_records(self, login):
         """Get list of Email records."""
-        
-        res = self._request("get_mailaccounts", {"mail_login": login})
+        param = {}
+        if login is not None:
+            param["mail_login"] = login
+        res = self._request("get_mailaccounts", param)
 
         # Put the Email records into a list of dicts
         items = res[1]["value"]["item"][2]["value"]["_value_1"]
