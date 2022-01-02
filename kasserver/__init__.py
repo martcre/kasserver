@@ -121,7 +121,7 @@ class KasServer:
         return result
 
 
-    def add_email_record(self, mail_name, mail_password):
+    def add_email_record(self, mail_name, mail_password, copy_adress):
         """Add an Email record."""
         
         parts = mail_name.split("@")
@@ -130,6 +130,7 @@ class KasServer:
             "mail_password": mail_password,
             "local_part": parts[0],
             "domain_part": parts[1],
+            "copy_adress": copy_adress
         })
 
         # Return the login:

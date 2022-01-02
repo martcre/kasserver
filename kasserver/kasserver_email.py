@@ -1,4 +1,3 @@
-from email.policy import default
 import logging
 from os import name
 
@@ -58,10 +57,10 @@ def list_command(login, nofilter, fields):
 @cli.command(name = "add")
 @click.argument("mail")
 @click.argument("password")
-def add_command(mail, password):
+@click.option("--copyadress", default="")
+def add_command(mail, password, copyadress):
     """Add Email Record"""
     kas = kasserver.KasServer()
-    records = kas.add_email_record(mail, password)
+    mail_login = kas.add_email_record(mail, password, copyadress)
     
-    for item in records:
-        pprint(item)
+    pprint(mail_login)
